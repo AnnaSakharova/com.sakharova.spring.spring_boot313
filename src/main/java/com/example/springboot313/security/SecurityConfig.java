@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
 
 @Configuration
 @EnableWebSecurity
@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user").access("hasAnyRole('ROLE_USER')")
                 .antMatchers("/admin").access("hasAnyRole('ROLE_ADMIN')")
                 .and().formLogin()
-                .successHandler((AuthenticationSuccessHandler) successUserHandler);
+                .successHandler(successUserHandler);
     }
 
     @Bean

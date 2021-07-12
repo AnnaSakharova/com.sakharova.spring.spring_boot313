@@ -12,12 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("")
 public class MyController {
 
-    @Autowired
-    private UserServiceImpl userService;
-    @Autowired
-    private RoleServiceImpl roleService;
-
-
     @GetMapping(value = "/admin")
     public String showAllUsers(ModelMap model) {
         return "users";

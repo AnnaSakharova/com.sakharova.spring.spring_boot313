@@ -1,9 +1,10 @@
 package com.example.springboot313.controllers;
 
 import com.example.springboot313.model.User;
-import com.example.springboot313.service.RoleService;
 import com.example.springboot313.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,34 +15,37 @@ public class MyRestController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private RoleService roleService;
-
 
     @GetMapping("/allusers")
-    public List<User> list() {
-        return userService.getAllUsers();
+    public ResponseEntity<User> list() {
+        List<User> users = userService.getAllUsers();
+        return (users != null && !users.isEmpty())
+                ? new ResponseEntity(users, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/{id}")
-    public User getOne(@PathVariable Integer id) {
-        return userService.show(id);
+    public ResponseEntity<User> getOne(@PathVariable Integer id) {
+        User user = userService.show(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping("/newUser")
-    public User addUserBd(@RequestBody User user) {
-        User user1 = user;
-        return userService.save(user1);
+    public ResponseEntity<?> addUserBd(@RequestBody User user) {
+        userService.save(user);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/edit")
-    public User update(@RequestBody User user) {
-        return userService.update(user);
+    public ResponseEntity<?> update(@RequestBody User user) {
+        userService.update(user);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable("id") Integer id) {
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
         userService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 

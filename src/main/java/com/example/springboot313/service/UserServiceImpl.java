@@ -34,7 +34,6 @@ public class UserServiceImpl implements UserService {
         return optionalUser.get();
     }
 
-    @Override
     public Role showRole(int id) {
         Optional<Role> optionalUser = roleRepository.findById(id);
 
